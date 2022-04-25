@@ -17,6 +17,8 @@ require'nvim-treesitter.configs'.setup {
 
 require('lualine').setup {}
 
+-- Comments
+require('nvim_comment').setup {}
 
 -- LSP
 -- Mappings.

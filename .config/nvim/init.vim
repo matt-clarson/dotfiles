@@ -56,6 +56,9 @@ Plug 'nvim-lualine/lualine.nvim'
 " Git
 Plug 'kdheepak/lazygit.nvim'
 
+" Comments
+Plug 'terrortylor/nvim-comment'
+
 " Extra language bits
 Plug 'pangloss/vim-javascript' "JS support
 Plug 'leafgarland/typescript-vim' "TS support
