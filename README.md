@@ -51,6 +51,19 @@ tmux
 
 Once open, you can run `tmux source ~/.tmux.config` to load the config file, and then press `<C-b> I` to install the plugins it specifies - this can take a few seconds.
 
+**If you get a weird bug where pressing `<backspace>` in a new tmux window inserts a `<space>`, do the following:**
+
+```bash
+brew install ncurses
+# then
+/usr/local/opt/ncurses/bin/infocmp tmux-256color > ~/tmux-256color.info
+# or, if brew is installed in /opt/homebrew
+/opt/homebrew/opt/ncurses/bin/infocmp tmux-256color > ~/tmux-256color.info
+
+cd ~
+tic -xe tmux-256color tmux-256color.info
+```
+
 ### ZSH
 
 The ZSH config is pretty lightweight - you just need to put the config in-place and source it:
