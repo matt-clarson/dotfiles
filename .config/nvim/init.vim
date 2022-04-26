@@ -40,6 +40,9 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope-file-browser.nvim'
 
+" Treesitter
+Plug 'nvim-treesitter/nvim-treesitter'
+
 " DevIcons
 Plug 'kyazdani42/nvim-web-devicons'
 
@@ -47,6 +50,14 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'neovim/nvim-lspconfig'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'folke/trouble.nvim'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
+
 
 " Status line
 Plug 'nvim-lualine/lualine.nvim'
@@ -68,6 +79,9 @@ call plug#end()
 "==========================================
 " VIM mappings
 "==========================================
+
+" LSP Commpletion
+set completeopt=menu,menuone,noselect
 
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
