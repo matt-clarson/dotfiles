@@ -94,6 +94,7 @@ ln -s $PWD/.config/nvim/lua $HOME/.config/nvim/lua
 ```
 
 Then start nvim (run `nvim`), ignore the errors that display and run `:PlugInstall` to install the plugins.  
+Then run `:TSUpdate` to run the initial install/update for treesitter - this can take a while.  
 Quit Nvim once the install completes, then re-open it and everything should be good, with no errors!
 
 #### Language Setup

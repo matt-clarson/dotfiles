@@ -29,8 +29,6 @@ call plug#begin('~/.config/nvim/autoload')
 " Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 Plug 'rose-pine/neovim', {'as': 'rose-pine'}
 
-" Treesitter
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Language packs
 Plug 'sheerun/vim-polyglot'
