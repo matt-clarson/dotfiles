@@ -39,7 +39,7 @@ brew install tmux
 Next up is tmux. First we need to put the tmux config in the right place:
 
 ```bash
-ln -s $PWD/.tmux.config $HOME/.tmux.config
+ln -s $PWD/.tmux.conf $HOME/.tmux.conf
 ```
 
 Then install the tmux plugin manager, and launch tmux:
@@ -49,7 +49,7 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 tmux
 ```
 
-Once open, you can run `tmux source ~/.tmux.config` to load the config file, and then press `<C-b> I` to install the plugins it specifies - this can take a few seconds.
+Once open, you can run `tmux source ~/.tmux.conf` to load the config file, and then press `<C-b> I` to install the plugins it specifies - this can take a few seconds.
 
 **If you get a weird bug where pressing `<backspace>` in a new tmux window inserts a `<space>`, do the following:**
 
