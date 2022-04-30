@@ -21,3 +21,6 @@ alias localaws='aws --endpoint-url http://localhost:4566'
 
 export GOBIN=$HOME/.go/bin
 export PATH=$PATH:$GOBIN
+
+# homedir bin
+export PATH=$PATH:$HOME/bin

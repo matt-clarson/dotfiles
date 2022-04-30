@@ -51,19 +51,6 @@ tmux
 
 Once open, you can run `tmux source ~/.tmux.conf` to load the config file, and then press `<C-b> I` to install the plugins it specifies - this can take a few seconds.
 
-**If you get a weird bug where pressing `<backspace>` in a new tmux window inserts a `<space>`, do the following:**
-
-```bash
-brew install ncurses
-# then
-/usr/local/opt/ncurses/bin/infocmp tmux-256color > ~/tmux-256color.info
-# or, if brew is installed in /opt/homebrew
-/opt/homebrew/opt/ncurses/bin/infocmp tmux-256color > ~/tmux-256color.info
-
-cd ~
-tic -xe tmux-256color tmux-256color.info
-```
-
 ### ZSH
 
 The ZSH config is pretty lightweight - you just need to put the config in-place and source it:
@@ -131,3 +118,48 @@ This setup provides the following mappings/commands:
 | `<leader>xc` | `TroubleClose`           | [trouble.nvim](https://github.com/folke/trouble.nvim)                                        |
 | `<leader>gg` | `LazyGit`                | [lazygit](https://github.com/jesseduffield/lazygit)                                          |
 | `<leader>pf` | `PrettierAsync`          | [vim-prettier](https://github.com/prettier/vim-prettier)                                     |
+
+### NCSpot
+
+[NCSpot](https://github.com/hrkfdn/ncspot) is a TUI app for playing spotify. Legit.  
+(Note you need a spotify premium account for it to work)
+
+You can install it with:
+
+```bash
+brew install ncspot
+
+# put the config files in the right place
+mkdir -p ~/.config/ncspot
+ln -s $PWD/.config/ncspot/config.toml $HOME/.config/ncspot/config.toml
+
+# launch
+ncspot
+```
+
+When it starts up you need to type `login` and press enter.  
+Then enter your the email you signed up to spotify with, press `<tab>`, enter your spotify password, press `<tab>` again, then press enter.
+
+### Bashtop
+
+[Bashtop](https://github.com/aristocratos/bashtop) is a cool looking system monitoring TUI app. It takes a bit of fiddling to install:
+
+```bash
+# install binary dependencies
+brew install bash coreutils gnu-sed git python3
+
+# install python dependencies
+python3 -m pip install psutil
+
+# get the bashtop source and build
+git clone https://github.com/aristocratos/bashtop.git
+cd bashtop
+sudo make install
+# or, to install as a non-root user
+make install PREFIX=$HOME
+
+# uninstall from the bashtop dir
+sudo make uninstall
+# or, if installed as non-root
+make uninstall PREFIX=$HOME
+```
