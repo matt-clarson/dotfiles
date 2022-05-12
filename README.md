@@ -86,7 +86,7 @@ Quit Nvim once the install completes, then re-open it and everything should be g
 
 #### Language Setup
 
-As mentioned above, this setup is for Typescript and Golang. It uses plugins that expect some language specific tools to be installed on the system.
+As mentioned above, this setup is for Typescript, Rust, and Golang. It uses plugins that expect some language specific tools to be installed on the system.
 
 For Typescript:
 
@@ -104,6 +104,18 @@ For Golang:
 brew install go
 
 go install golang.org/x/tools/gopls@latest
+```
+
+For Rust:
+
+```bash
+# rustup is the rust toolchain manager
+brew install rust-up
+# this bootstraps an initial rust installation
+rustup-init
+
+# rust-analyzer is the official rust lsp implementation
+brew install rust-analyzer
 ```
 
 ### Mappings
