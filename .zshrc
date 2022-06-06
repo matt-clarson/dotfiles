@@ -24,3 +24,7 @@ export PATH=$PATH:$GOBIN
 
 # homedir bin
 export PATH=$PATH:$HOME/bin
+
+export PNPM_HOME="/Users/mattclarson/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+alias node=$PNPM_HOME/node
