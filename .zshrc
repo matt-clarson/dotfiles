@@ -28,3 +28,4 @@ export PATH=$PATH:$HOME/bin
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 alias node=$PNPM_HOME/node
+bindkey '^R' history-incremental-search-backward
