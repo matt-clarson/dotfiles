@@ -73,6 +73,7 @@ Plug 'pangloss/vim-javascript' "JS support
 Plug 'leafgarland/typescript-vim' "TS support
 Plug 'maxmellon/vim-jsx-pretty' "JS and JSX syntax
 Plug 'prettier/vim-prettier'
+Plug 'mattn/emmet-vim'
 
 call plug#end()
 
@@ -101,6 +102,9 @@ let g:prettier#autoformat = 1
 let g:prettier#autoformat_require_pragma = 0
 " Prettier mappings
 nnoremap <leader>pf <cmd>PrettierAsync<cr>
+
+" enable emmet in tsx files
+autocmd FileType html,css,typescriptreact EmmetInstall
 
 
 "==========================================
