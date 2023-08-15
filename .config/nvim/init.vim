@@ -72,8 +72,8 @@ Plug 'terrortylor/nvim-comment'
 Plug 'pangloss/vim-javascript' "JS support
 Plug 'leafgarland/typescript-vim' "TS support
 Plug 'maxmellon/vim-jsx-pretty' "JS and JSX syntax
-Plug 'prettier/vim-prettier'
 Plug 'mattn/emmet-vim'
+Plug 'sbdchd/neoformat'
 
 call plug#end()
 
@@ -97,11 +97,8 @@ nnoremap <leader>xc <cmd>TroubleClose<cr>
 " Git
 nnoremap <leader>gg <cmd>LazyGit<cr>
 
-" Prettier format on save
-let g:prettier#autoformat = 1
-let g:prettier#autoformat_require_pragma = 0
-" Prettier mappings
-nnoremap <leader>pf <cmd>PrettierAsync<cr>
+" Neoformat mappings
+nmap <Leader><Space> <cmd>Neoformat<cr>
 
 " enable emmet in tsx files
 autocmd FileType html,css,typescriptreact EmmetInstall
