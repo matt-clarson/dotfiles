@@ -15,6 +15,17 @@ require'nvim-treesitter.configs'.setup {
     highlight = { enable = true }
 }
 
+local treesitter_parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+treesitter_parser_config.templ = {
+  install_info = {
+    url = "https://github.com/vrischmann/tree-sitter-templ.git",
+    files = {"src/parser.c", "src/scanner.c"},
+    branch = "master",
+  },
+}
+
+vim.treesitter.language.register('templ', 'templ')
+
 require('lualine').setup {}
 
 -- Comments
@@ -98,7 +109,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'gopls', 'tsserver', 'pyright', 'rust_analyzer', 'svelte' }
+local servers = { 'gopls', 'tsserver', 'svelte', 'pyright', 'rust_analyzer', 'csharp_ls', 'clojure_lsp' , 'templ'}
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     capabilities = capabilities,

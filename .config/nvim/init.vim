@@ -42,6 +42,8 @@ Plug 'nvim-telescope/telescope-file-browser.nvim'
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter-context'
+Plug 'vrischmann/tree-sitter-templ'
 
 " DevIcons
 Plug 'kyazdani42/nvim-web-devicons'
@@ -70,9 +72,8 @@ Plug 'terrortylor/nvim-comment'
 
 " Extra language bits
 Plug 'pangloss/vim-javascript' "JS support
-Plug 'leafgarland/typescript-vim' "TS support
+Plug 'HerringtonDarkholme/yats.vim'
 Plug 'maxmellon/vim-jsx-pretty' "JS and JSX syntax
-Plug 'mattn/emmet-vim'
 Plug 'sbdchd/neoformat'
 
 call plug#end()
@@ -88,6 +89,7 @@ set completeopt=menu,menuone,noselect
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fb <cmd>Telescope file_browser<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fs <cmd>Telescope treesitter<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " Use Trouble to view errors/warnings etc.
@@ -99,6 +101,13 @@ nnoremap <leader>gg <cmd>LazyGit<cr>
 
 " Neoformat mappings
 nmap <Leader><Space> <cmd>Neoformat<cr>
+
+" Terminal shortcuts
+nnoremap <leader>tt <cmd>tabnew<cr><cmd>terminal<cr>
+nnoremap <leader>tv <cmd>vsplit<cr><cmd>terminal<cr>
+nnoremap <leader>ts <cmd>split<cr><cmd>terminal<cr>
+" Terminal to normal mode
+tnoremap <C-Esc> <C-\><C-n>
 
 " enable emmet in tsx files
 autocmd FileType html,css,typescriptreact EmmetInstall
