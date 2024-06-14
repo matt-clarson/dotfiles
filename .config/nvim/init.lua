@@ -711,6 +711,22 @@ require("lazy").setup({
 			{ "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
 		},
 	},
+	{
+		"vhyrro/luarocks.nvim",
+		priority = 1000,
+		config = true,
+		opts = {
+			rocks = { "lua-curl", "nvim-nio", "mimetypes", "xml2lua" },
+		},
+	},
+	{
+		"rest-nvim/rest.nvim",
+		ft = "http",
+		dependencies = { "luarocks.nvim" },
+		config = function()
+			require("rest-nvim").setup()
+		end,
+	},
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
