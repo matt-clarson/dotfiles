@@ -75,14 +75,10 @@ brew install lazygit
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 # config files
-mkdir -p $HOME/.config/nvim
-ln -s $PWD/.config/nvim/init.vim $HOME/.config/nvim/init.vim
-ln -s $PWD/.config/nvim/lua $HOME/.config/nvim/lua
+ln -s $PWD/.config/nvim $HOME/.config/nvim
 ```
 
-Then start nvim (run `nvim`), ignore the errors that display and run `:PlugInstall` to install the plugins.  
-Then run `:TSUpdate` to run the initial install/update for treesitter - this can take a while.  
-Quit Nvim once the install completes, then re-open it and everything should be good, with no errors!
+Then start nvim (run `nvim`), and wait for the installers to run.
 
 #### Language Setup
 
