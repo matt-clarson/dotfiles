@@ -637,7 +637,10 @@ require("lazy").setup({
 		"folke/todo-comments.nvim",
 		event = "VimEnter",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		opts = { signs = false },
+		config = function()
+			require("todo-comments").setup({ signs = false })
+			vim.keymap.set("n", "<leader>st", ":TodoTelescope<cr>", { desc = "[S]earch [T]odos" })
+		end,
 	},
 
 	{ -- Collection of various small independent plugins/modules
