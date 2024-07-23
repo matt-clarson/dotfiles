@@ -638,7 +638,11 @@ require("lazy").setup({
 		event = "VimEnter",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
-			require("todo-comments").setup({ signs = false })
+			require("todo-comments").setup({
+				keywords = {
+					UNSAFE = { icon = " ", color = "hint" },
+				},
+			})
 			vim.keymap.set("n", "<leader>st", ":TodoTelescope<cr>", { desc = "[S]earch [T]odos" })
 		end,
 	},
