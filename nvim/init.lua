@@ -64,10 +64,11 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
--- Set tabs to expand to 4 spaces
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+vim.opt.softtabstop = 0
+vim.opt.copyindent = true
+vim.opt.preserveindent = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -168,20 +169,18 @@ require("lazy").setup({
 		event = "VimEnter", -- Sets the loading event to 'VimEnter'
 		config = function() -- This is the function that runs, AFTER loading
 			require("which-key").setup()
-
-			-- Document existing key chains
-			require("which-key").register({
-				["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-				["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-				["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-				["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
-				["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
-				["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
-				["<leader>h"] = { name = "Git [H]unk", _ = "which_key_ignore" },
+			require("which-key").add({
+				{ "<leader>c", group = "[C]ode" },
+				{ "<leader>d", group = "[D]ocument" },
+				{ "<leader>r", group = "[R]ename" },
+				{ "<leader>s", group = "[S]earch" },
+				{ "<leader>w", group = "[W]orkspace" },
+				{ "<leader>t", group = "[T]oggle" },
+				{ "<leader>h", group = "Git [H]unk" },
 			})
 			-- visual mode
-			require("which-key").register({
-				["<leader>h"] = { "Git [H]unk" },
+			require("which-key").add({
+				{ "<leader>h", group = "Git [H]unk" },
 			}, { mode = "v" })
 		end,
 	},
@@ -416,7 +415,7 @@ require("lazy").setup({
 						},
 					},
 				},
-				tsserver = {},
+				ts_ls = {},
 				wgsl_analyzer = {},
 
 				lua_ls = {
@@ -498,7 +497,9 @@ require("lazy").setup({
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
-				javascript = { { "prettierd", "prettier" } },
+				-- javascript = { { "prettierd", "prettier" } },
+				-- typescript = { { "prettierd", "prettier" } },
+				-- svelte = { { "prettierd", "prettier" } },
 			},
 		},
 	},
@@ -640,7 +641,7 @@ require("lazy").setup({
 		config = function()
 			require("todo-comments").setup({
 				keywords = {
-					UNSAFE = { icon = " ", color = "hint" },
+					SAFETY = { icon = " ", color = "hint" },
 				},
 			})
 			vim.keymap.set("n", "<leader>st", ":TodoTelescope<cr>", { desc = "[S]earch [T]odos" })
@@ -744,6 +745,11 @@ require("lazy").setup({
 		config = function()
 			require("rest-nvim").setup()
 		end,
+	},
+	{
+		"m4xshen/hardtime.nvim",
+		dependencies = { "MunifTanjim/nui.nvim" },
+		opts = {},
 	},
 }, {
 	ui = {
