@@ -20,10 +20,10 @@ alias localaws='aws --endpoint-url http://localhost:4566'
 # localstack end
 
 export GOBIN=$HOME/.go/bin
-export PATH=$PATH:$GOBIN
+export PATH=$GOBIN:$PATH
 
 # homedir bin
-export PATH=$PATH:$HOME/bin
+export PATH=$HOME/bin:$PATH
 
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
