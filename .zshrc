@@ -15,6 +15,8 @@ alias intel_brew=/usr/local/bin/brew
 alias brew=/opt/homebrew/bin/brew
 # brew stuff end
 
+PATH=$HOME/.cargo/env:$PATH
+
 # localstack
 alias localaws='aws --endpoint-url http://localhost:4566'
 # localstack end
@@ -53,3 +55,8 @@ if [ -f '/Users/mattclarson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/mat
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/mattclarson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/mattclarson/google-cloud-sdk/completion.zsh.inc'; fi
+
+[ -f "/Users/matt/.ghcup/env" ] && . "/Users/matt/.ghcup/env" # ghcup-env
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

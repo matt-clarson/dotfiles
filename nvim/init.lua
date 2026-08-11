@@ -83,8 +83,12 @@ vim.keymap.set("n", "<leader>tv", "<cmd>vsplit<cr><cmd>terminal<cr>")
 vim.keymap.set("n", "<leader>ts", "<cmd>split<cr><cmd>terminal<cr>")
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
+vim.keymap.set("n", "[d", function()
+	vim.diagnostic.jump({ count = 1, float = true })
+end, { desc = "Go to previous [D]iagnostic message" })
+vim.keymap.set("n", "]d", function()
+	vim.diagnostic.jump({ count = -1, float = true })
+end, { desc = "Go to next [D]iagnostic message" })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
@@ -123,6 +127,13 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = "*.wgsl",
 	callback = function()
 		vim.bo.filetype = "wgsl"
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+	pattern = "*.tofu",
+	callback = function()
+		vim.bo.filetype = "terraform"
 	end,
 })
 
@@ -187,8 +198,8 @@ require("lazy").setup({
 
 	{ -- Fuzzy Finder (files, lsp, etc)
 		"nvim-telescope/telescope.nvim",
+		version = "*",
 		event = "VimEnter",
-		branch = "0.1.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			{ -- If encountering errors, see telescope-fzf-native README for installation instructions
@@ -289,10 +300,6 @@ require("lazy").setup({
 			-- Useful status updates for LSP.
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
 			{ "j-hui/fidget.nvim", opts = {} },
-
-			-- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
-			-- used for completion, annotations and signatures of Neovim apis
-			{ "folke/neodev.nvim", opts = {} },
 		},
 		config = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -318,10 +325,6 @@ require("lazy").setup({
 					--  Useful when you're not sure what type a variable is and you want to see
 					--  the definition of its *type*, not where it was *defined*.
 					map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-
-					-- Fuzzy find all the symbols in your current document.
-					--  Symbols are things like variables, functions, types, etc.
-					map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
 
 					-- Fuzzy find all the symbols in your current workspace.
 					--  Similar to document symbols, except searches over your entire project.
@@ -354,7 +357,7 @@ require("lazy").setup({
 					-- When you move your cursor, the highlights will be cleared (the second autocommand).
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 
-					if client.name == "svelte" then
+					if client ~= nil and client.name == "svelte" then
 						vim.api.nvim_create_autocmd("BufWritePost", {
 							pattern = { "*.js", "*.ts", "*.svelte" },
 							callback = function(ctx)
@@ -507,9 +510,12 @@ require("lazy").setup({
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
-				-- javascript = { { "prettierd", "prettier" } },
-				-- typescript = { { "prettierd", "prettier" } },
-				-- svelte = { { "prettierd", "prettier" } },
+				css = { "prettierd", "prettier", stop_after_first = true },
+				html = { "prettierd", "prettier", stop_after_first = true },
+				javascript = { "prettierd", "prettier", stop_after_first = true },
+				json = { "prettierd", "prettier", stop_after_first = true },
+				typescript = { "prettierd", "prettier", stop_after_first = true },
+				svelte = { "prettierd", "prettier", stop_after_first = true },
 			},
 		},
 	},
@@ -688,39 +694,35 @@ require("lazy").setup({
 			--  Check out: https://github.com/echasnovski/mini.nvim
 		end,
 	},
-	{ -- Highlight, edit, and navigate code
+	{
 		"nvim-treesitter/nvim-treesitter",
+		dependencies = { "neovim-treesitter/treesitter-parser-registry" },
+		lazy = false,
 		build = ":TSUpdate",
-		opts = {
-			ensure_installed = { "bash", "c", "diff", "html", "lua", "luadoc", "markdown", "vim", "vimdoc" },
-			-- Autoinstall languages that are not installed
-			auto_install = true,
-			highlight = {
-				enable = true,
-				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-				--  If you are experiencing weird indenting issues, add the language to
-				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-				additional_vim_regex_highlighting = { "ruby" },
-			},
-			indent = { enable = true, disable = { "ruby" } },
-		},
-		config = function(_, opts)
-			-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+		main = "nvim-treesitter",
+		init = function()
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function()
+					-- Enable treesitter highlighting and disable regex syntax
+					pcall(vim.treesitter.start)
+					-- Enable treesitter-based indentation
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
+			})
 
-			-- Prefer git instead of curl in order to improve connectivity in some environments
-			require("nvim-treesitter.install").prefer_git = true
-			---@diagnostic disable-next-line: missing-fields
-			require("nvim-treesitter.configs").setup(opts)
-
-			-- There are additional nvim-treesitter modules that you can use to interact
-			-- with nvim-treesitter. You should go explore a few and see what interests you:
-			--
-			--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-			--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-			--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+			require("nvim-treesitter").install({
+				"python",
+				"go",
+				"rust",
+				"typescript",
+				"svelte",
+				"html",
+				"javascript",
+				"css",
+				"scss",
+			})
 		end,
 	},
-
 	{
 		"kdheepak/lazygit.nvim",
 		cmd = {
@@ -749,17 +751,70 @@ require("lazy").setup({
 		},
 	},
 	{
-		"rest-nvim/rest.nvim",
-		ft = "http",
-		dependencies = { "luarocks.nvim" },
+		"folke/zen-mode.nvim",
+		opts = {
+			window = {
+				width = 90,
+			},
+		},
+	},
+	{
+		"preservim/vim-pencil",
 		config = function()
-			require("rest-nvim").setup()
+			vim.keymap.set(
+				"n",
+				"<leader>z",
+				"<cmd>ZenMode | HardPencil<cr>",
+				{ desc = "Start [Z] mode with a prose editor." }
+			)
 		end,
 	},
 	{
-		"m4xshen/hardtime.nvim",
-		dependencies = { "MunifTanjim/nui.nvim" },
-		opts = {},
+		"folke/lazydev.nvim",
+		ft = "lua", -- only load on lua files
+		opts = {
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
+		},
+	},
+	{
+		"RubixDev/ebnf",
+		opts = {
+			rtp = "crates/tree-sitter-ebnf",
+		},
+		config = function()
+			vim.filetype.add({ extension = { ebnf = "ebnf" } })
+		end,
+	},
+	{
+		"mfussenegger/nvim-dap",
+		config = function()
+			local dap = require("dap")
+			vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "[D]ebugger [B]reakpoint" })
+			vim.keymap.set("n", "<leader>dl", "<cmd>DapNew<cr>", { desc = "[D]ebugger [L]aunch" })
+			vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "[D]ebugger [C]ontinue" })
+			vim.keymap.set("n", "<leader>dq", dap.terminate, { desc = "[D]ebugger [Q]uit" })
+			vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "[D]ebugger Step [I]nto" })
+			vim.keymap.set("n", "<leader>do", dap.step_out, { desc = "[D]ebugger Step [O]ut" })
+			vim.keymap.set("n", "<leader>dv", dap.step_over, { desc = "[D]ebugger Step O[v]er" })
+			vim.keymap.set("n", "<leader>dt", dap.repl.toggle, { desc = "[D]ebugger [T]oggle REPL" })
+			vim.keymap.set("n", "<leader>ds", function()
+				dap.list_breakpoints(true)
+			end, { desc = "[D]ebugger [S]how Breakpoints" })
+			vim.keymap.set("n", "<leader>dr", dap.clear_breakpoints, { desc = "[D]ebugger [R]eset Breakpoints" })
+		end,
+	},
+	{
+		"leoluz/nvim-dap-go",
+		config = function()
+			local dap_go = require("dap-go")
+			dap_go.setup()
+
+			vim.keymap.set("n", "<leader>dgt", dap_go.debug_test, { desc = "[D]ebugger ([G]olang) [T]est" })
+		end,
 	},
 }, {
 	ui = {
